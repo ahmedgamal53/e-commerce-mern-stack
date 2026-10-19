@@ -4,9 +4,13 @@ import App from './App.tsx'
 import { BrowserRouter } from 'react-router-dom'
 import ShopContextProvider from './context/ShopContext.tsx'
 import { Toaster } from 'react-hot-toast'
+import { AuthProvider } from './context/AuthContext.tsx'
 
 createRoot(document.getElementById('root')!).render(
-  <BrowserRouter>
+ 
+
+ <BrowserRouter>
+ <AuthProvider>
   <Toaster
   position="top-center"
   reverseOrder={false}
@@ -16,5 +20,7 @@ createRoot(document.getElementById('root')!).render(
   <ShopContextProvider>
     <App />
   </ShopContextProvider>
-  </BrowserRouter>,
+  </AuthProvider>
+  </BrowserRouter>
+
 )

@@ -1,11 +1,28 @@
-import { Link, NavLink } from 'react-router-dom'
+import { Link, NavLink, useNavigate } from 'react-router-dom'
 import { Menu, Search, ShoppingCart, UserRound } from "lucide-react";
 import { useState } from 'react';
 import { useShop } from '../context/ShopContext';
+import { api } from '../api/axios';
+import { useAuth } from '../context/AuthContext';
 const Navbar = () => {
 
     const [visible,setvisible]=useState(false)
     const {cartitem}=useShop()
+    const auth = useAuth()
+    const setstatus = auth?.setstatus
+    const status = auth?.status
+const navigate=useNavigate()
+const handelLogout=async()=>{
+  try {
+    await api.post("/api/user/userLogout")
+    setstatus?.("unauthenticated")
+    navigate("/login")
+  } catch (error) {
+    console.log(error);
+    
+  }
+}
+
   return (
     <div className='flex items-center justify-between py-5 font-medium'>
         <img src='../../public/logo.png' className='w-36'/>
@@ -71,15 +88,32 @@ const Navbar = () => {
 <div className="flex items-center gap-5">
   <Search className="w-5 h-5 cursor-pointer" />
     <div className="relative group">
-      <Link to='/login'>
+{
+  status==="authenticated"?(
+    <div>
+          <UserRound className="w-5 h-5 cursor-pointer" />
+
+    </div>
+  ):(
+    <div>
+<Link to='/login'>
     <UserRound className="w-5 h-5 cursor-pointer" />
       </Link>
+    </div>
+  )
+}
+
+      
 
     <div className="group-hover:block  hidden absolute right-0 pt-4">
       <div className="flex flex-col gap-2 w-36 px-5 py-3 bg-slate-100 text-gray-500">
         <p className="cursor-pointer hover:text-black">My Profile</p>
-        <p className="cursor-pointer hover:text-black">Orders</p>
-        <p className="cursor-pointer hover:text-black">Logout</p>
+        <p 
+        onClick={()=>navigate("/orders")}
+        className="cursor-pointer hover:text-black">Orders</p>
+        <p
+        onClick={()=>handelLogout()}
+        className="cursor-pointer hover:text-black">Logout</p>
       </div>
     </div>
   </div>

@@ -6,10 +6,10 @@ const BestSeller = () => {
   const { products } = useShop();
   const navigate = useNavigate();
   const [bestSeller, setbestSeller] = useState();
+
   useEffect(() => {
-    const bestProduct = products.filter((item) => item.bestseller);
+    const bestProduct = products?.filter((item) => item.bestseller);
     setbestSeller(bestProduct.slice(0, 5));
-    console.log(bestSeller);
   }, []);
   return (
     <div className="  my-10 ">
@@ -28,17 +28,10 @@ const BestSeller = () => {
                 <img
                   loading="lazy"
                   key={products._id}
-                  src={
-                    Array.isArray(item.image)
-                      ? item.image[0].replace(
-                          "/upload/",
-                          "/upload/w_500,c_limit,q_auto,f_auto/",
-                        )
-                      : item.image.replace(
-                          "/upload/",
-                          "/upload/w_500,c_limit,q_auto,f_auto/",
-                        )
-                  }
+                  src={item.image[0]?.url.replace(
+                    "/upload/",
+                    "/upload/w_500,c_limit,q_auto,f_auto/",
+                  )}
                   alt={item.name}
                   onClick={() => navigate(`/product/${item._id}`)}
                   className="w-full aspect-square object-cover group-hover:scale-105 transition duration-300"

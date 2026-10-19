@@ -1,12 +1,51 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { api } from "../api/axios";
+import { useAuth } from "../context/AuthContext";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+const [email,setemail]=useState('')
+const [password,setpassword]=useState('')
+const [name,setname]=useState('')
+const [ConfirmPassword,setConfirmPassword]=useState('')
+const [error,seterror]=useState("")
+
+const navigate=useNavigate()
+ const auth = useAuth()
+    const setstatus = auth?.setstatus
+
+  const onSubmitHandler=async(e: { preventDefault: () => void; })=>{
+    e.preventDefault()
+    
+    if(password !==ConfirmPassword) {
+      return seterror("Please confirm your password correctly")
+    } 
+
+    try {
+       seterror("");
+      const res =await api.post("/api/user/register",{
+        email,
+        password,
+        name
+      })
+
+      if(!res.data.success){
+        return seterror(res.data.message)
+      }
+        setstatus?.("authenticated")
+
+        return navigate('/')
+      
+      
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center px-4 py-12">
+    <div className="min-h-[80vh] flex items-center justify-center px-4 ">
       <div className="w-full max-w-md">
 
         {/* Header */}
@@ -23,7 +62,9 @@ const Signup = () => {
         {/* Card */}
         <div className="border border-gray-200 rounded-2xl p-7 sm:p-9 shadow-sm bg-white">
 
-          <form className="flex flex-col gap-5">
+          <form 
+          onSubmit={onSubmitHandler}
+          className="flex flex-col gap-5">
 
             {/* Name */}
             <div>
@@ -45,6 +86,8 @@ const Signup = () => {
                   placeholder:text-gray-400
                 "
                 required
+                                value={name}
+                onChange={(e)=>setname(e.target.value)}
               />
             </div>
 
@@ -68,6 +111,8 @@ const Signup = () => {
                   placeholder:text-gray-400
                 "
                 required
+                                value={email}
+                onChange={(e)=>setemail(e.target.value)}
               />
             </div>
 
@@ -92,6 +137,8 @@ const Signup = () => {
                     placeholder:text-gray-400
                   "
                   required
+                                  value={password}
+                onChange={(e)=>setpassword(e.target.value)}
                 />
 
                 <button
@@ -131,6 +178,8 @@ const Signup = () => {
                     placeholder:text-gray-400
                   "
                   required
+                  value={ConfirmPassword}
+                onChange={(e)=>setConfirmPassword(e.target.value)}
                 />
 
                 <button
@@ -148,10 +197,16 @@ const Signup = () => {
                 >
                   {showConfirmPassword ? "Hide" : "Show"}
                 </button>
+
+                
               </div>
             </div>
 
-     
+                  <div className="text-center text-red-500">{
+                    error&&(
+                      <div>{error}</div>
+                    )
+                    }</div>
 
             {/* Button */}
             <button

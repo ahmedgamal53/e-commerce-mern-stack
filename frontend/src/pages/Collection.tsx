@@ -1,4 +1,4 @@
-import {   useState } from "react";
+import { useState } from "react";
 import { useShop } from "../context/ShopContext"
 import { useNavigate } from "react-router-dom";
 import { Search } from "lucide-react";
@@ -6,7 +6,7 @@ import { Search } from "lucide-react";
 const Collection = () => {
   const {products}=useShop()
   const navigate = useNavigate();
-  console.log('product',[...new Set(products.map((item)=>item.category))]);
+  console.log('product',[...new Set(products?.map((item)=>item.category))]);
   const [category,setcategory]=useState('All')
   const [subCategory,setsubCategory]=useState('All')
   const [sortType,setsortType]=useState('relevant')
@@ -66,7 +66,7 @@ return categoryMatch&&subCategoryMatch &&SearchMAtch
     </h2>
 
     <div className="flex flex-col gap-3">
-      {["All", ...new Set(products.map((item) => item.category))].map(
+      {["All", ...new Set(products?.map((item) => item.category))].map(
         (item, index) => (
           <div key={index} className="flex items-center gap-3">
 
@@ -168,38 +168,61 @@ return categoryMatch&&subCategoryMatch &&SearchMAtch
   />
 </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mt-5 gap-x-3 gap-y-8">
-        {filter
-          ?.map((item) => (
-            <div key={item._id} className="group cursor-pointer">
-              <div className="overflow-hidden bg-gray-100">
-                <img
-                  loading="lazy"
-                  key={item._id}
-src={
-  Array.isArray(item.image)
-    ? item.image[0].replace(
-        "/upload/",
-        "/upload/w_500,c_limit,q_auto,f_auto/"
-      )
-    : item.image.replace(
-        "/upload/",
-        "/upload/w_500,c_limit,q_auto,f_auto/"
-      )
-}              
-      alt={item.name}
-                  onClick={() => navigate(`/product/${item._id}`)}
-                  className="w-full aspect-square object-cover group-hover:scale-105 transition duration-300"
-                />
+{filter && filter.length > 0 ? (
+  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 mt-5 gap-x-3 gap-y-8">
+    {filter.slice(0, 10).map((item) => {
+      
+      const outOfStock = item.sizes.every(
+        (size) => size.stock === 0
+      );
+
+      return (
+        <div key={item._id} className="group cursor-pointer">
+
+          <div className="overflow-hidden bg-gray-100 relative">
+
+            <img
+              loading="lazy"
+              src={item.image[0].url.replace(
+                "/upload/",
+                "/upload/w_500,c_limit,q_auto,f_auto/"
+              )}
+              alt={item.name}
+              onClick={() => navigate(`/product/${item._id}`)}
+              className={`w-full aspect-square object-cover group-hover:scale-105 transition duration-300 ${
+                outOfStock ? "opacity-60" : ""
+              }`}
+            />
+
+            {outOfStock && (
+              <div className="absolute  top-0 flex items-center justify-center">
+                <span className="bg-black text-white px-4 py-2 text-sm font-medium">
+                  Out of Stock
+                </span>
               </div>
+            )}
 
-              <p className="mt-2 text-[12px] text-gray-700">{item.name}</p>
+          </div>
 
-              <p className="text-[12px] text-gray-900">${item.price}</p>
-            </div>
-          ))
-          .slice(0, 10)}
-      </div>
+          <p className="mt-2 text-[12px] text-gray-700">
+            {item.name}
+          </p>
+
+          <p className="text-[12px] text-gray-900">
+            ${item.price}
+          </p>
+
+        </div>
+      );
+    })}
+  </div>
+) : (
+  <div className="flex justify-center items-center py-20">
+    <p className="text-gray-500 text-lg">
+      No products found
+    </p>
+  </div>
+)}
 </div>
 
     </div>

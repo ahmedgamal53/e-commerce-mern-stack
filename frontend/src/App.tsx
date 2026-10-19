@@ -11,7 +11,7 @@ import Contact from "./pages/Contact"
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 import Signup from "./pages/Signup"
-
+import ProtectedCart from './components/protectedCart'
 function App() {
 
   return (
@@ -24,7 +24,11 @@ function App() {
   <Route path="/about" element={<About />} />
   <Route path="/contact" element={<Contact />} />
   <Route path="/product/:productId" element={<Product />} />
+  <Route element={<ProtectedCart />} >
+
   <Route path="/cart" element={<Cart />} />
+  </Route>
+
   <Route path="/login" element={<Login />} />
   <Route path="/signup" element={<Signup />} />
   <Route path="/place-order" element={<PlaceOrder />} />

@@ -1,11 +1,36 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { api } from "../api/axios";
+import { useAuth } from "../context/AuthContext";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
-
+const [email,setemail]=useState('')
+const [password,setpassword]=useState('')
+const [error,seterror]=useState("")
+const navigate=useNavigate()
+    const auth = useAuth()
+    const setstatus = auth?.setstatus
   const onSubmitHandler=async (e: { preventDefault: () => void; })=>{
     e.preventDefault()
+
+    try {
+      const res=await api.post('/api/user/login',{
+        email,password
+      })
+
+        if(!res.data.success){
+        return seterror(res.data.message)
+      }
+        setstatus?.("authenticated")
+
+        navigate("/")
+      console.log('res',res);
+      
+    } catch (error) {
+      console.log(error);
+      
+    }
   }
 
   return (
@@ -50,6 +75,8 @@ const Login = () => {
                   placeholder:text-gray-400
                 "
                 required
+                value={email}
+                onChange={(e)=>setemail(e.target.value)}
               />
             </div>
 
@@ -83,6 +110,8 @@ const Login = () => {
                     placeholder:text-gray-400
                   "
                   required
+                                  value={password}
+                onChange={(e)=>setpassword(e.target.value)}
                 />
 
                 <button
@@ -101,7 +130,11 @@ const Login = () => {
               </div>
             </div>
 
-
+       <div className="text-center text-red-500">{
+                    error&&(
+                      <div>{error}</div>
+                    )
+                    }</div>
 
             {/* Button */}
             <button
