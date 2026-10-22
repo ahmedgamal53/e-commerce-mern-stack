@@ -32,26 +32,6 @@ app.use(
 
 app.use(cookieParser());
 
-let initializationPromise;
-
-app.use(async (req, res, next) => {
-  try {
-    if (!initializationPromise) {
-      initializationPromise = (async () => {
-        await connectDB();
-        await connectRedis();
-      })();
-    }
-
-    await initializationPromise;
-    next();
-  } catch (error) {
-    initializationPromise = null;
-    console.error("Initialization error:", error);
-    res.status(500).json({ message: "Server initialization failed" });
-  }
-});
-
 // api endpoints
 app.use("/api/user", router);
 app.use("/api/product", productRouter);
@@ -62,10 +42,11 @@ app.get("/", (req, res) => {
   res.send("Hello World!");
 });
 
+connectDB().then(async () => {
+  await connectRedis();
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
+  });
+});
+
 export default app;
-// connectDB().then(async () => {
-//   await connectRedis();
-//   app.listen(port, () => {
-//     console.log(`Example app listening on port ${port}`);
-//   });
-// });
