@@ -2,11 +2,11 @@ import Hero from '../components/Hero'
 // LatestCollection is currently implemented as JavaScript without type declarations.
 // @ts-expect-error TS7016: no declaration file is available for this module.
 import LatestCollection from '../components/LatestCollection'
-import BestSeller from '../components/BestSeller'
 import OurPolicy from '../components/OurPolicy'
 import NewsletterBox from '../components/NewsletterBox'
 import { useShop } from '../context/ShopContext'
 import { LoaderCircle } from 'lucide-react'
+import BestSeller from '../components/BestSeller'
 const Home = () => {
   const {  loading } = useShop();
     if (loading) {

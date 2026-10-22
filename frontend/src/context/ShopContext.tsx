@@ -4,15 +4,20 @@ import { createContext, useContext, useEffect, useState, type PropsWithChildren 
 import toast from "react-hot-toast";
 import { api } from "../api/axios";
 
-type Product = {
+interface  Product  {
   _id: string;
   name: string;
   description: string;
   price: number;
-  image: string[];
+   image: {
+    url: string;
+  }[];
   category: string;
   subCategory: string;
-  sizes: string[];
+  sizes: {
+    size:string,
+    stock:number
+  }[];
   date: number;
   bestseller: boolean;
 };
@@ -24,7 +29,7 @@ interface ShopData  {
   products: Product[];
   cartitem: {
     _id: string;
-    product: Product[];
+    product: Product;
     size: string;
     quantity: number;
     
@@ -52,7 +57,7 @@ const ShopContext = createContext<ShopData>({
 
 const ShopContextProvider = ({ children }: PropsWithChildren) => {
 const [cartitem, setcartitem] = useState<{
-  _id: string;product:Product[];size:string;quantity:number
+  _id: string;product:Product;size:string;quantity:number
 }[]>(()=> {
     const stored = localStorage.getItem("caritem");
     return stored ? JSON.parse(stored) : [];
@@ -92,7 +97,7 @@ const addtocart =async (product: Product, size: string) => {
     }
 
   } catch (error) {
-    console.log("Backend error:", error.response?.data);
+    console.log(error);
     
   }
 

@@ -10,6 +10,8 @@ const Cart = () => {
 
   const { cartitem,setcartitem, updatequantit,loading } = useShop();
 
+
+
 const subtotal =cartitem.reduce(
       (total, item) => total + item.product.price * item.quantity,
       0

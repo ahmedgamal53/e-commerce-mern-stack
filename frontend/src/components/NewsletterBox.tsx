@@ -1,6 +1,8 @@
 
+import type { FormEvent } from "react";
+
 const NewsletterBox = () => {
-    const onSubmitHandler=(e:unknown)=>{
+  const onSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
         e.preventDefault()
     }
   return (

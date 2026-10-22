@@ -7,11 +7,11 @@ import Login from "./pages/Login"
 import Cart from "./pages/Cart"
 import PlaceOrder from "./pages/PlaceOrder"
 import Orders from "./pages/Orders"
-import Contact from "./pages/Contact"
 import Navbar from "./components/Navbar"
 import Footer from "./components/Footer"
 import Signup from "./pages/Signup"
 import ProtectedCart from './components/protectedCart'
+import Contact from "./pages/Contact"
 function App() {
 
   return (
