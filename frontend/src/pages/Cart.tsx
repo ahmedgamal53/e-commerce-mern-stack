@@ -25,7 +25,6 @@ const deletitem=async(productId:string,size:string)=>{
       size
     }
     })
-    console.log(res);
     
       if (res.data.success) {
         toast.success(res.data.message)

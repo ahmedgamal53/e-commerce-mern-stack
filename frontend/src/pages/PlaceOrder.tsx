@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
+import  { useState } from 'react'
 import { useShop } from '../context/ShopContext';
-import { CreditCard, Wallet } from 'lucide-react';
+import {  Wallet } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { api } from '../api/axios';
 import toast from 'react-hot-toast';
