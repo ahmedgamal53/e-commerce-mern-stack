@@ -19,7 +19,7 @@ connectCloudinary();
 app.use(express.json());
 
 const allowedOrigins = [
-  "https://e-commerce-mern-stack-omega.vercel.app/",
+  "https://e-commerce-mern-stack-rv1x-gamma.vercel.app",
   process.env.USER_FRONTEND_URL,
   process.env.ADMIN_FRONTEND_URL,
 ].filter(Boolean);
