@@ -27,11 +27,15 @@ const Hero = () => {
       </div>
 
       {/* Hero Right Side */}
-      <img
-        className=" h-[500px] sm:w-1/2"
-        src='/pexels-ron-lach-8571862.jpg'
-        
-      />
+     <img
+  src="/pexels-ron-lach-8571862.jpg"
+  alt="Fashion collection"
+  fetchPriority="high"
+  decoding="async"
+  width="800"
+  height="1000"
+  className="h-[500px] w-full sm:w-1/2"
+/>
 
     </div>
   )
