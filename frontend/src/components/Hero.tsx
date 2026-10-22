@@ -29,7 +29,7 @@ const Hero = () => {
       {/* Hero Right Side */}
       <img
         className=" h-[500px] sm:w-1/2"
-        src='../../public/pexels-ron-lach-8571862.jpg'
+        src='/public/pexels-ron-lach-8571862.jpg'
         
       />
 

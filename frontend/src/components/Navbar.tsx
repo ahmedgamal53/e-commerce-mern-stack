@@ -25,7 +25,7 @@ const handelLogout=async()=>{
 
   return (
     <div className='flex items-center justify-between py-5 font-medium'>
-        <img src='../../public/logo.png' className='w-36'/>
+        <img src='/public/logo.png' className='w-36'/>
 
 <ul className="hidden sm:flex gap-5 text-sm text-gray-700">
    <NavLink
